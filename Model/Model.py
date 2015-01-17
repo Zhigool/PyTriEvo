@@ -41,4 +41,5 @@ class Model(object):
                 obj = Population()
                 obj.paintPrimitive()
                 obj.calcDifference()
-                self.view.updateImage(Population.imageBigResult.resize(Population.sourceSize, Image.ANTIALIAS))
+                if obj.isBest():
+                    self.view.updateImage(Population.imageBigResult.resize(Population.sourceSize, Image.ANTIALIAS))

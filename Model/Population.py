@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFilter,ImageEnhance
 class Population(object):
     """docstring for Population"""
     sourceSize = ()
-    resultQuality = 4
+    resultQuality = 1
     imageSource = ""
     ndArraySource = ""
     imageBigResult = ""
@@ -28,6 +28,7 @@ class Population(object):
         self.resultQuality = Population.resultQuality
         self.resultBigSize = self.resultSize[0]*self.resultQuality, self.resultSize[1]*self.resultQuality
         self.result = Population.imageBigResult.copy()
+        self.best = False
 
     def paintPrimitive(self):
         primitive= Image.new("RGBA", (self.resultBigSize[0], self.resultBigSize[1]), (0,0,0,0))
@@ -60,3 +61,7 @@ class Population(object):
         if Population.bestMatch > resultCalcDifference:
             Population.bestMatch = resultCalcDifference
             Population.imageBigResult = self.result
+            self.best = True
+
+    def isBest(self):
+        return self.best
