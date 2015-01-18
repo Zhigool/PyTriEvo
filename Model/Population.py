@@ -29,8 +29,10 @@ class Population(object):
         self.numPrimitives = numPrimitives
         self.resultQuality = Population.resultQuality
         self.resultBigSize = self.resultSize[0]*self.resultQuality, self.resultSize[1]*self.resultQuality
-        self.result = Population.imageBigResult.copy()
         self.best = False
+
+    def reset(self):
+        self.result = Population.imageBigResult.copy()
 
     def paintPrimitive(self):
         print("paintPrimitive()")

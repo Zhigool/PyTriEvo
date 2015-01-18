@@ -42,8 +42,9 @@ class Model(object):
         print("run")
         if self.nameImageSource != "":
             Population.setImageSource(self.nameImageSource)
+            obj = Population()
             while self.STOPCALC == False:
-                obj = Population()
+                obj.reset()
                 obj.paintPrimitive()
                 obj.calcDifference()
                 if obj.isBest():
