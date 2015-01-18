@@ -8,6 +8,7 @@ from PIL import Image, ImageTk
 
 class View():
     def __init__(self):
+        print("View.__init__")
         self.root = Tk()
         self.root.title("PyTriEvo")
 
@@ -27,6 +28,7 @@ class View():
         self.bttn_generate.grid(row = 1, column = 1, sticky=(N, W, E, S))
 
     def addControllers(self, controllers):
+        print("addControllers")
         self.controllers = controllers
         for cnt in self.controllers:
             if cnt == "bttn_openFile":
@@ -35,14 +37,17 @@ class View():
                 self.setGeneratBttnAsGenerate()
 
     def setGeneratBttnAsGenerate(self):
+        print("setGeneratBttnAsGenerate()")
         self.bttn_generate["text"] = "Generate"
         self.bttn_generate["command"] = self.controllers['bttn_generate'].Action
 
     def setGeneratBttnAsStop(self):
+        print("setGeneratBttnAsStop()")
         self.bttn_generate["text"] = "Stop"
         self.bttn_generate["command"] = self.controllers['bttn_stop'].Action
 
     def openFile(self):
+        print("openFile()")
         nameFile = askopenfilename(filetypes=[("Image files", "*.png"), ("All files", ".*")])
         self.nameFile = Image.open(nameFile)
         self.nameFile = ImageTk.PhotoImage(self.nameFile)
@@ -52,16 +57,15 @@ class View():
         return nameFile
 
     def saveFile(self):
+        print("saveFile()")
         return asksaveasfilename(filetypes=(("Image files", "*.jpeg;*.png"), ("All files", "*.*")), initialfile="Untitled.jpeg")
 
     def updateImage(self, newImage):
+        print("updateImage()")
         self.image = ImageTk.PhotoImage(newImage)
         self.lbl2["image"] = self.image
         self.lbl2.grid(row = 0, column = 1, sticky=(N, W, E, S))
 
     def startloop(self):
+        print("startloop()")
         self.root.mainloop()
-
-    def pixel(self, image):
-        data = ("{red red red red blue blue blue blue}")
-        image.put(data, to=(20,20,280,280))

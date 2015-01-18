@@ -16,12 +16,14 @@ class Population(object):
     bestMatch = 100000000
     @staticmethod
     def setImageSource(str):
+        print("setImageSource()")
         Population.imageSource = Image.open(str).convert("RGB")
         Population.sourceSize = Population.imageSource.size[0], Population.imageSource.size[1]
         Population.ndArraySource = np.array(Population.imageSource.getdata()).reshape(Population.sourceSize[0], Population.sourceSize[1], 3)
         Population.imageBigResult = Image.new("RGBA", (Population.sourceSize[0]*Population.resultQuality, Population.sourceSize[1]*Population.resultQuality), (0,0,0,0))
 
     def __init__(self, numPrimitives=1):
+        print("Population.__init__")
         self.resultSize = Population.sourceSize[0], Population.sourceSize[1]
         self.resultType = Population.imageSource.mode
         self.numPrimitives = numPrimitives
@@ -31,6 +33,7 @@ class Population(object):
         self.best = False
 
     def paintPrimitive(self):
+        print("paintPrimitive()")
         primitive= Image.new("RGBA", (self.resultBigSize[0], self.resultBigSize[1]), (0,0,0,0))
         drawPrimitive = ImageDraw.Draw(primitive)
 
@@ -43,13 +46,15 @@ class Population(object):
             self.addTriangle(primitive, opacity)
 
     def addTriangle(self, primitive, opacity):
+        print("addTriangle()")
         if opacity < 1:
             alpha = primitive.split()[3]
             alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
             primitive.putalpha(alpha)
         self.result = Image.alpha_composite(self.result, primitive)
 
-    def calcDifference(self): 
+    def calcDifference(self):
+        print("calcDifference()")
         tempImage = self.result.copy()
         tempImage = tempImage.resize(Population.sourceSize, Image.ANTIALIAS)
         resultCalcDifference = 0
@@ -64,4 +69,5 @@ class Population(object):
             self.best = True
 
     def isBest(self):
+        print("isBest()")
         return self.best

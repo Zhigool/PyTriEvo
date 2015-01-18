@@ -9,6 +9,7 @@ from Population import *
 class Model(object):
     
     def __init__(self):
+        print("Model.__init__")
         self.STOPCALC = False
         self.count_click = 0
         self.view = 0
@@ -19,6 +20,8 @@ class Model(object):
     
     def startCalc(self):
         print("startCalc")
+        self.STOPCALC = False
+        Population.bestMatch = 100000000
         thread.start_new_thread(self.run,())
         self.view.setGeneratBttnAsStop()
     def stopCalc(self):
@@ -32,14 +35,17 @@ class Model(object):
         self.nameImageSource = self.view.openFile()
 
     def addView(self, view):
+        print("addView")
         self.view = view
 
     def run(self):
+        print("run")
         if self.nameImageSource != "":
             Population.setImageSource(self.nameImageSource)
-            while self.STOPCALC != True:
+            while self.STOPCALC == False:
                 obj = Population()
                 obj.paintPrimitive()
                 obj.calcDifference()
                 if obj.isBest():
                     self.view.updateImage(Population.imageBigResult.resize(Population.sourceSize, Image.ANTIALIAS))
+                    print(Population.bestMatch)
