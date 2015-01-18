@@ -30,8 +30,11 @@ class Population(object):
         self.resultQuality = Population.resultQuality
         self.resultBigSize = self.resultSize[0]*self.resultQuality, self.resultSize[1]*self.resultQuality
         self.best = False
+        self.sizePrimitive = (self.resultBigSize[0], self.resultBigSize[1])
+        self.positionPrimitive = [0, 0]
 
     def reset(self):
+        print("reset()")
         self.result = Population.imageBigResult.copy()
 
     def paintPrimitive(self):
@@ -40,10 +43,12 @@ class Population(object):
         drawPrimitive = ImageDraw.Draw(primitive)
 
         for cntTr in xrange(self.numPrimitives):
-            x1, x2, x3 = rnd.sample(range(0, self.resultBigSize[0]), 3)
-            y1, y2, y3 = rnd.sample(range(0, self.resultBigSize[1]), 3)
+            self.positionPrimitive[0] = rnd.randint(0, self.resultBigSize[0] - self.sizePrimitive[0])
+            self.positionPrimitive[1] = rnd.randint(0, self.resultBigSize[1] - self.sizePrimitive[1])
+            x1, x2, x3 = rnd.sample(range(0, self.sizePrimitive[0]), 3)
+            y1, y2, y3 = rnd.sample(range(0, self.sizePrimitive[1]), 3)
             color = tuple(rnd.sample(range(0, 255), 3))
-            drawPrimitive.polygon((x1,y1,x2,y2,x3,y3), outline=color, fill=color)
+            drawPrimitive.polygon((x1 + self.positionPrimitive[0], y1 + self.positionPrimitive[1], x2 + self.positionPrimitive[0], y2 + self.positionPrimitive[1], x3 + self.positionPrimitive[0], y3 + self.positionPrimitive[1]), outline=color, fill=color)
             opacity = 0.5
             self.addTriangle(primitive, opacity)
 
